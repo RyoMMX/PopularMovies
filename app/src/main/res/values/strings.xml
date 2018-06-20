@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="title_activity_main">Popular movies</string>
+    <string name="title_activity_detailed">DetailedActivity</string>
+    <string name="overview">overview</string>
+    <string name="original_title">original title</string>
+    <string name="contains_adult_content">Contains Adult Content</string>
+    <string name="adult_logo">adult logo</string>
+    <string name="release_date">release date</string>
+    <string name="vote">Vote</string>
+</resources>

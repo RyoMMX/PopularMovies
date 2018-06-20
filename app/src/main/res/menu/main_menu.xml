@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/popularity_mi"
+        android:title="Popularity"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/release_date_mi"
+        android:title="Release Date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/revenue_mi"
+        android:title="revenue"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/primary_release_date_mi"
+        android:title="Primary Release Date"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/origina_title_mi"
+        android:title="Original Title"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/vote_average_mi"
+        android:title="Vote Average"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/vote_count_mi"
+        android:title="Vote Count"
+        app:showAsAction="never" />
+
+</menu>

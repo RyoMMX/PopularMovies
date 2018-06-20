@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data></data>
+
+    <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp16"
+            android:paddingTop="@dimen/dp24">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingRight="@dimen/dp16"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/original_title"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:id="@+id/original_title_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp16" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingRight="@dimen/dp16"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/release_date"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:id="@+id/release_date_TV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp16" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingRight="@dimen/dp16"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vote"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:id="@+id/vote_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp16" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingRight="@dimen/dp16"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/overview"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <TextView
+                        android:id="@+id/overview_tv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/dp16" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/adult_CV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingLeft="@dimen/dp16"
+                    android:paddingRight="@dimen/dp16"
+                    android:paddingTop="@dimen/dp24"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:text="@string/contains_adult_content"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/adult_logo"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:src="@drawable/adult_logo" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp16"
+                        android:paddingRight="@dimen/dp16"
+                        android:text=""
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/genre_types_RV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</layout>

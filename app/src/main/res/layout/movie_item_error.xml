@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/activity_middle_margin">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/activity_middle_margin"
+                android:layout_marginTop="@dimen/activity_middle_margin"
+                android:gravity="center"
+                android:text="@string/no_pagination_network_error" />
+
+            <ImageButton
+                android:id="@+id/btnRepeat"
+                style="@style/RepeatButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:src="@drawable/ic_replay"
+                android:textColor="@color/no_pagination_error_background" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>
