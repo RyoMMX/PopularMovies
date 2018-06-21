@@ -9,7 +9,6 @@ import java.util.List;
 public class JsonUtils {
     public static List<Movie> getRootFromJson(String json) {
         Root root = new Gson().fromJson(json, Root.class);
-        List<Movie> results = root.getResults();
-        return results;
+        return root.getResults();
     }
 }

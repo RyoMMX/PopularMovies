@@ -9,8 +9,8 @@ public class DataManager {
     private static final int MOVIE_LOADER_ID = 0;
     private int page;
 
-    private FragmentActivity fragmentActivity;
-    private MoviesLoaderCallbacks.OnMoviePageLoaded onMoviePageLoaded;
+    private final FragmentActivity fragmentActivity;
+    private final MoviesLoaderCallbacks.OnMoviePageLoaded onMoviePageLoaded;
     private MovieSortBy sortAs;
 
     public DataManager(FragmentActivity fragmentActivity, MovieSortBy sortAs,

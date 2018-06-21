@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.gson.Gson;
 import com.mikepenz.materialdrawer.Drawer;
@@ -22,6 +22,7 @@ import com.ryo.muhammad.popularmovies.background.MoviesLoaderCallbacks;
 import com.ryo.muhammad.popularmovies.databinding.ActivityMainBinding;
 import com.ryo.muhammad.popularmovies.jsonModel.Movie;
 import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
+import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,11 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    private void resetRecyclerView() {
-        adapter = new MovieAdapter(new ArrayList<Movie>(), this, new ListItemOnClick());
-        binding.contentMain.moviesRv.setAdapter(adapter);
-    }
-
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
     }
@@ -126,10 +122,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadNewPage() {
-        dataManager.loadNextPage();
+        if (NetworkUtils.isOnline(this)) {
+            dataManager.loadNextPage();
+        } else {
+            noPaginate.showError(true);
+        }
     }
 
-    public class CustomErrorItem implements ErrorItem {
+    class CustomErrorItem implements ErrorItem {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, final OnRepeatListener repeatListener) {
-            Button btnRepeat = (Button) holder.itemView.findViewById(R.id.btnRepeat);
-            btnRepeat.setOnClickListener(new View.OnClickListener() {
+            ImageButton imageButton = holder.itemView.findViewById(R.id.btnRepeat);
+            imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (repeatListener != null) {
@@ -152,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void goToDetailedActivity(Movie movie) {
+    private void goToDetailedActivity(Movie movie) {
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra(DetailedActivity.EXTRA_MOVE_JSON, new Gson().toJson(movie));
         startActivity(intent);
     }
 
-    public class DrawerListener implements Drawer.OnDrawerItemClickListener {
+    class DrawerListener implements Drawer.OnDrawerItemClickListener {
 
         @Override
         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     dataManager.setSortAs(MovieSortBy.REVENUE);
                 } else if (drawerItem.getIdentifier() == R.id.primary_release_date_mi) {
                     dataManager.setSortAs(MovieSortBy.PRIMARY_RELEASE_DATE);
-                } else if (drawerItem.getIdentifier() == R.id.origina_title_mi) {
+                } else if (drawerItem.getIdentifier() == R.id.original_title_mi) {
                     dataManager.setSortAs(MovieSortBy.ORIGINAL_TITLE);
                 } else if (drawerItem.getIdentifier() == R.id.vote_average_mi) {
                     dataManager.setSortAs(MovieSortBy.VOTE_AVERAGE);

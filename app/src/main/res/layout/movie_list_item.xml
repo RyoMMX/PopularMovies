@@ -24,7 +24,8 @@
                 android:id="@+id/poster_iv"
                 android:layout_width="140dp"
                 android:layout_height="150dp"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/poster_image" />
 
             <TextView
                 android:id="@+id/title_tv"

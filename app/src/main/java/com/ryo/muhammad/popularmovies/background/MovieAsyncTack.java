@@ -13,11 +13,11 @@ import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
 import java.io.IOException;
 import java.util.List;
 
-public class MovieAsyncTack extends AsyncTaskLoader<List<Movie>> {
-    private MovieSortBy movieSortBy;
-    private int page;
+class MovieAsyncTack extends AsyncTaskLoader<List<Movie>> {
+    private final MovieSortBy movieSortBy;
+    private final int page;
 
-    public MovieAsyncTack(@NonNull Context context, int page, MovieSortBy movieSortBy) {
+    MovieAsyncTack(@NonNull Context context, int page, MovieSortBy movieSortBy) {
         super(context);
         this.movieSortBy = movieSortBy;
         this.page = page;

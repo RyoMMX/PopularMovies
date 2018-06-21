@@ -36,7 +36,8 @@
                 android:paddingLeft="32dp"
                 android:paddingRight="32dp"
                 android:src="@drawable/ic_replay"
-                android:textColor="@color/no_pagination_error_background" />
+                android:textColor="@color/no_pagination_error_background"
+                android:contentDescription="@string/repeat_image_button" />
 
         </LinearLayout>
 

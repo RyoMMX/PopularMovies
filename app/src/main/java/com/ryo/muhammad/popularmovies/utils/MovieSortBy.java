@@ -9,7 +9,7 @@ public enum MovieSortBy {
     VOTE_AVERAGE("vote_average.asc"),
     VOTE_COUNT("vote_count.asc");
 
-    private String value;
+    private final String value;
 
     MovieSortBy(String value) {
         this.value = value;

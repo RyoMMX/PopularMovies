@@ -13,14 +13,12 @@ import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
 import java.util.List;
 
 public class MoviesLoaderCallbacks implements LoaderManager.LoaderCallbacks<List<Movie>> {
-    private static final String TAG = MoviesLoaderCallbacks.class.getSimpleName();
+    private final Context context;
+    private final OnMoviePageLoaded onMoviePageLoaded;
+    private final MovieSortBy sortBy;
+    private final int page;
 
-    private Context context;
-    private OnMoviePageLoaded onMoviePageLoaded;
-    private MovieSortBy sortBy;
-    private int page;
-
-    public MoviesLoaderCallbacks(Context context, int page, MovieSortBy sortBy, OnMoviePageLoaded onMoviePageLoaded) {
+    MoviesLoaderCallbacks(Context context, int page, MovieSortBy sortBy, OnMoviePageLoaded onMoviePageLoaded) {
         this.context = context;
         this.sortBy = sortBy;
         this.onMoviePageLoaded = onMoviePageLoaded;

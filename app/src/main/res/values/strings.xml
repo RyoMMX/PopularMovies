@@ -8,4 +8,17 @@
     <string name="adult_logo">adult logo</string>
     <string name="release_date">release date</string>
     <string name="vote">Vote</string>
+    <string name="genre_type">genre type</string>
+
+    <string name="detail_error_message">Sandwich data not available</string>
+    <string name="movie_image">movie image</string>
+    <string name="poster_image">poster image</string>
+    <string name="repeat_image_button">repeat image button</string>
+    <string name="popularity_title">Popularity</string>
+    <string name="release_date_title">Release Date</string>
+    <string name="revenue_title">revenue</string>
+    <string name="primary_release_date_title">Primary Release Date</string>
+    <string name="original_title_title">Original Title</string>
+    <string name="vote_average_title">Vote Average</string>
+    <string name="vote_count_title">Vote Count</string>
 </resources>

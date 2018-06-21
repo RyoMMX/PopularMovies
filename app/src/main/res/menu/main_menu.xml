@@ -4,37 +4,37 @@
 
     <item
         android:id="@+id/popularity_mi"
-        android:title="Popularity"
+        android:title="@string/popularity_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/release_date_mi"
-        android:title="Release Date"
+        android:title="@string/release_date_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/revenue_mi"
-        android:title="revenue"
+        android:title="@string/revenue_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/primary_release_date_mi"
-        android:title="Primary Release Date"
+        android:title="@string/primary_release_date_title"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/origina_title_mi"
-        android:title="Original Title"
+        android:id="@+id/original_title_mi"
+        android:title="@string/original_title_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/vote_average_mi"
-        android:title="Vote Average"
+        android:title="@string/vote_average_title"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/vote_count_mi"
-        android:title="Vote Count"
+        android:title="@string/vote_count_title"
         app:showAsAction="never" />
 
 </menu>

@@ -30,13 +30,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     @Override
     public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new Holder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.movie_list_item, null, false));
+                .inflate(R.layout.movie_list_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Holder holder, final int position) {
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
         final Movie movie = movies.get(position);
-
+        final int i = position;
         if (movie != null) {
             if (movie.getPosterPath() != null) {
                 NetworkUtils.loadImage(context, movie.getPosterPath(), holder.posterIV, NetworkUtils.THUMBNAIL_IMAGE);
@@ -49,7 +49,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onListItemClicked.onClick(v, position, movie);
+                    onListItemClicked.onClick(v, i, movie);
                 }
             });
         }
@@ -67,17 +67,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         }
     }
 
-    public class Holder extends RecyclerView.ViewHolder {
+    class Holder extends RecyclerView.ViewHolder {
         private final ImageView posterIV;
         private final TextView titleTV;
 
-        public Holder(View itemView) {
+        Holder(View itemView) {
             super(itemView);
             this.posterIV = itemView.findViewById(R.id.poster_iv);
             this.titleTV = itemView.findViewById(R.id.title_tv);
         }
     }
-
 
     public interface OnListItemClicked {
         void onClick(View v, int position, Movie movie);

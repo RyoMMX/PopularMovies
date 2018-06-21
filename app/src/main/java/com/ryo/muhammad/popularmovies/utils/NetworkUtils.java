@@ -2,9 +2,10 @@ package com.ryo.muhammad.popularmovies.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.Log;
-import android.webkit.URLUtil;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -15,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -33,7 +33,7 @@ public class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    public static URL createURL(int page, MovieSortBy sortBy) {
+    private static URL createURL(int page, MovieSortBy sortBy) {
         Uri.Builder uriBuilder = Uri.parse(THE_MOVIE_DB_BASE_URL)
                 .buildUpon()
                 .appendQueryParameter(API_KEY_KEY, API_KEY_VALUE)
@@ -51,7 +51,7 @@ public class NetworkUtils {
         return url;
     }
 
-    public static String getJson(URL url) throws IOException {
+    private static String getJson(URL url) throws IOException {
         String json = null;
 
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -82,11 +82,21 @@ public class NetworkUtils {
 
         if (url != null) {
             Glide.with(context)
-                    .load("http://image.tmdb.org/t/p/w185" + imagePath)
+                    .load(url)
                     .apply(
                             new RequestOptions()
                                     .error(R.drawable.ic_broken))
                     .into(imageView);
         }
+    }
+
+    public static boolean isOnline(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = null;
+        if (cm != null) {
+            netInfo = cm.getActiveNetworkInfo();
+        }
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
