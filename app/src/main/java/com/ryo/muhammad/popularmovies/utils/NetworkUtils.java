@@ -28,8 +28,8 @@ public class NetworkUtils {
     private static final String THE_MOVIE_DB_TOP_RATED_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated";
 
     private static final String API_KEY_KEY = "api_key";
-    //TODO remove the api_key value before publishing
-    private static final String API_KEY_VALUE = "b983f4d87827c8fb33e44a28e9438aa2";
+    //TODO ADD yout api key here
+    private static final String API_KEY_VALUE = "<<your api key>>";
     private static final String SORT_BY_KEY = "sort_by";
     private static final String PAGE_KEY = "page";
 
