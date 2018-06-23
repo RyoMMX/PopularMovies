@@ -8,6 +8,12 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/top_rated_mi"
+        android:title="@string/top_rated"
+        app:showAsAction="never" />
+
+
+    <item
         android:id="@+id/release_date_mi"
         android:title="@string/release_date_title"
         app:showAsAction="never" />

@@ -21,4 +21,5 @@
     <string name="original_title_title">Original Title</string>
     <string name="vote_average_title">Vote Average</string>
     <string name="vote_count_title">Vote Count</string>
+    <string name="top_rated">Top Rated</string>
 </resources>

@@ -24,6 +24,8 @@ public class NetworkUtils {
     public static final int LARGE_IMAGE = 1;
 
     private static final String THE_MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private static final String THE_MOVIE_DB_POPULAR_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
+    private static final String THE_MOVIE_DB_TOP_RATED_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated";
 
     private static final String API_KEY_KEY = "api_key";
     //TODO remove the api_key value before publishing
@@ -34,20 +36,36 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
     private static URL createURL(int page, MovieSortBy sortBy) {
-        Uri.Builder uriBuilder = Uri.parse(THE_MOVIE_DB_BASE_URL)
-                .buildUpon()
-                .appendQueryParameter(API_KEY_KEY, API_KEY_VALUE)
-                .appendQueryParameter(SORT_BY_KEY, sortBy.toString())
-                .appendQueryParameter(PAGE_KEY, String.valueOf(page));
+        Uri.Builder uriBuilder;
+        if (sortBy.toString().equals(MovieSortBy.POPULARITY.toString())) {
+            uriBuilder = Uri.parse(THE_MOVIE_DB_POPULAR_BASE_URL).buildUpon()
+                    .appendQueryParameter(API_KEY_KEY, API_KEY_VALUE)
+                    .appendQueryParameter(PAGE_KEY, String.valueOf(page));
 
-        URL url = null;
-        try {
-            url = new URL(uriBuilder.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Log.e(TAG, "failed to create URL");
+        } else if (sortBy.toString().equals(MovieSortBy.TOP_RATED.toString())) {
+            uriBuilder = Uri.parse(THE_MOVIE_DB_TOP_RATED_BASE_URL).buildUpon()
+                    .appendQueryParameter(API_KEY_KEY, API_KEY_VALUE)
+                    .appendQueryParameter(PAGE_KEY, String.valueOf(page));
+        } else {
+            uriBuilder = Uri.parse(THE_MOVIE_DB_BASE_URL)
+                    .buildUpon()
+                    .appendQueryParameter(API_KEY_KEY, API_KEY_VALUE)
+                    .appendQueryParameter(SORT_BY_KEY, sortBy.toString())
+                    .appendQueryParameter(PAGE_KEY, String.valueOf(page));
         }
-        Log.v(TAG, "url : " + url);
+        URL url = null;
+
+        if (uriBuilder != null) {
+            try {
+                url = new URL(uriBuilder.toString());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                Log.e(TAG, "failed to create URL");
+            }
+            Log.v(TAG, "url : " + url);
+        }
+
+
         return url;
     }
 

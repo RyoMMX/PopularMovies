@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(binding.toolbar)
                 .inflateMenu(R.menu.main_menu)
-                .withOnDrawerItemClickListener(new drawerListener())
                 .withSavedInstance(savedInstanceState)
                 .withDrawerWidthDp(200)
                 .withOnDrawerItemClickListener(new DrawerListener())
@@ -106,13 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
-    }
-
-    private static class drawerListener implements Drawer.OnDrawerItemClickListener {
-        @Override
-        public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-            return false;
-        }
     }
 
     @Override
@@ -167,6 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (drawerItem.getIdentifier() == R.id.popularity_mi) {
                     dataManager.setSortAs(MovieSortBy.POPULARITY);
+                } else if (drawerItem.getIdentifier() == R.id.top_rated_mi) {
+                    dataManager.setSortAs(MovieSortBy.TOP_RATED);
                 } else if (drawerItem.getIdentifier() == R.id.release_date_mi) {
                     dataManager.setSortAs(MovieSortBy.RELEASE_DATE);
                 } else if (drawerItem.getIdentifier() == R.id.revenue_mi) {

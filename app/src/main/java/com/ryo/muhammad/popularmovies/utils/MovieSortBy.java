@@ -2,6 +2,7 @@ package com.ryo.muhammad.popularmovies.utils;
 
 public enum MovieSortBy {
     POPULARITY("popularity.asc"),
+    TOP_RATED("top-rated"),
     RELEASE_DATE("release_date.asc"),
     REVENUE("revenue.asc"),
     PRIMARY_RELEASE_DATE("primary_release_date.asc"),
