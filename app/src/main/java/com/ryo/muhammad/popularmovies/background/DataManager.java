@@ -7,7 +7,7 @@ import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
 
 public class DataManager {
     private static final int MOVIE_LOADER_ID = 0;
-    private int page;
+    private int page = 1;
 
     private final FragmentActivity fragmentActivity;
     private final MoviesLoaderCallbacks.OnMoviePageLoaded onMoviePageLoaded;
@@ -30,7 +30,7 @@ public class DataManager {
     }
 
     public void resetPage() {
-        page = 0;
+        page = 1;
     }
 
     public void setSortAs(MovieSortBy sortAs) {

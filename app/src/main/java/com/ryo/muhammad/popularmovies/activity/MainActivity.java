@@ -38,12 +38,17 @@ public class MainActivity extends AppCompatActivity {
     private Drawer drawer;
     private NoPaginate noPaginate;
     private DataManager dataManager;
-    private long lastMenuItemPostion;
+    private long lastMenuItemId;
+    private static final String LAST_MENU_ITEM_ID_KEY = "I";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            lastMenuItemId = savedInstanceState.getLong(LAST_MENU_ITEM_ID_KEY);
+        }
 
         setupToolbar();
         setupNavDrawer(savedInstanceState);
@@ -71,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        setSortAs(drawer.getDrawerItem(lastMenuItemId));
         loadNewPage();
     }
 
@@ -92,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+    private void updateRecylerView() {
+        adapter.resetData();
+    }
+
     private void setupNavDrawer(Bundle savedInstanceState) {
         drawer = new DrawerBuilder()
                 .withActivity(this)
@@ -103,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
+
     private void setupToolbar() {
         setSupportActionBar(binding.toolbar);
     }
@@ -111,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         drawer.saveInstanceState(outState);
+        outState.putLong(LAST_MENU_ITEM_ID_KEY, lastMenuItemId);
     }
 
     private void loadNewPage() {
@@ -154,31 +166,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-
-            if (position != lastMenuItemPostion) {
-
-                if (drawerItem.getIdentifier() == R.id.popularity_mi) {
-                    dataManager.setSortAs(MovieSortBy.POPULARITY);
-                } else if (drawerItem.getIdentifier() == R.id.top_rated_mi) {
-                    dataManager.setSortAs(MovieSortBy.TOP_RATED);
-                } else if (drawerItem.getIdentifier() == R.id.release_date_mi) {
-                    dataManager.setSortAs(MovieSortBy.RELEASE_DATE);
-                } else if (drawerItem.getIdentifier() == R.id.revenue_mi) {
-                    dataManager.setSortAs(MovieSortBy.REVENUE);
-                } else if (drawerItem.getIdentifier() == R.id.primary_release_date_mi) {
-                    dataManager.setSortAs(MovieSortBy.PRIMARY_RELEASE_DATE);
-                } else if (drawerItem.getIdentifier() == R.id.original_title_mi) {
-                    dataManager.setSortAs(MovieSortBy.ORIGINAL_TITLE);
-                } else if (drawerItem.getIdentifier() == R.id.vote_average_mi) {
-                    dataManager.setSortAs(MovieSortBy.VOTE_AVERAGE);
-                } else if (drawerItem.getIdentifier() == R.id.vote_count_mi) {
-                    dataManager.setSortAs(MovieSortBy.VOTE_COUNT);
-                }
-                setupRecylerView();
-                lastMenuItemPostion = position;
-            }
-
+            setSortAs(drawerItem);
             return false;
+        }
+    }
+
+    private void setSortAs(IDrawerItem drawerItem) {
+        if (drawerItem != null && drawerItem.getIdentifier() != lastMenuItemId) {
+
+            if (drawerItem.getIdentifier() == R.id.popularity_mi) {
+                dataManager.setSortAs(MovieSortBy.POPULARITY);
+            } else if (drawerItem.getIdentifier() == R.id.top_rated_mi) {
+                dataManager.setSortAs(MovieSortBy.TOP_RATED);
+            } else if (drawerItem.getIdentifier() == R.id.release_date_mi) {
+                dataManager.setSortAs(MovieSortBy.RELEASE_DATE);
+            } else if (drawerItem.getIdentifier() == R.id.revenue_mi) {
+                dataManager.setSortAs(MovieSortBy.REVENUE);
+            } else if (drawerItem.getIdentifier() == R.id.primary_release_date_mi) {
+                dataManager.setSortAs(MovieSortBy.PRIMARY_RELEASE_DATE);
+            } else if (drawerItem.getIdentifier() == R.id.original_title_mi) {
+                dataManager.setSortAs(MovieSortBy.ORIGINAL_TITLE);
+            } else if (drawerItem.getIdentifier() == R.id.vote_average_mi) {
+                dataManager.setSortAs(MovieSortBy.VOTE_AVERAGE);
+            } else if (drawerItem.getIdentifier() == R.id.vote_count_mi) {
+                dataManager.setSortAs(MovieSortBy.VOTE_COUNT);
+            }
+            updateRecylerView();
+            lastMenuItemId = drawerItem.getIdentifier();
         }
     }
 

@@ -67,6 +67,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         }
     }
 
+    public void resetData() {
+        movies.clear();
+        notifyDataSetChanged();
+    }
+
     class Holder extends RecyclerView.ViewHolder {
         private final ImageView posterIV;
         private final TextView titleTV;
