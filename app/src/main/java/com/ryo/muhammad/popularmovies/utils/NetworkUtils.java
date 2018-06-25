@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.ryo.muhammad.popularmovies.BuildConfig;
 import com.ryo.muhammad.popularmovies.R;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class NetworkUtils {
 
     private static final String API_KEY_KEY = "api_key";
     //TODO ADD yout api key here
-    private static final String API_KEY_VALUE = "b983f4d87827c8fb33e44a28e9438aa2";
+    private static final String API_KEY_VALUE = BuildConfig.API_KEY;
     private static final String SORT_BY_KEY = "sort_by";
     private static final String PAGE_KEY = "page";
 
