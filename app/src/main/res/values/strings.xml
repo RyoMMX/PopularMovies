@@ -22,4 +22,6 @@
     <string name="vote_average_title">Vote Average</string>
     <string name="vote_count_title">Vote Count</string>
     <string name="top_rated">Top Rated</string>
+    <string name="trailers_title">Trailers</string>
+    <string name="reviews">Reviews</string>
 </resources>

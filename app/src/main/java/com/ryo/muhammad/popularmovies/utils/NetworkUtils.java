@@ -12,24 +12,35 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ryo.muhammad.popularmovies.BuildConfig;
 import com.ryo.muhammad.popularmovies.R;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.MovieRoot;
+import com.ryo.muhammad.popularmovies.jsonModel.reivew.ReviewRoot;
+import com.ryo.muhammad.popularmovies.jsonModel.video.Trailer;
+import com.ryo.muhammad.popularmovies.jsonModel.video.VideoRoot;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
+
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkUtils {
     public static final int THUMBNAIL_IMAGE = 0;
     public static final int LARGE_IMAGE = 1;
 
     private static final String THE_MOVIE_DB_BASE_URL = "https://api.themoviedb.org/3/discover/movie";
+    private static final String THE_MOVIE_DB_VIDEO_BASE_URL = "https://api.themoviedb.org/3/";
     private static final String THE_MOVIE_DB_POPULAR_BASE_URL = "https://api.themoviedb.org/3/movie/popular";
     private static final String THE_MOVIE_DB_TOP_RATED_BASE_URL = "https://api.themoviedb.org/3/movie/top_rated";
 
     private static final String API_KEY_KEY = "api_key";
-    //TODO ADD yout api key here
+    //TODO ADD your api key here
     private static final String API_KEY_VALUE = BuildConfig.API_KEY;
     private static final String SORT_BY_KEY = "sort_by";
     private static final String PAGE_KEY = "page";
@@ -117,5 +128,38 @@ public class NetworkUtils {
             netInfo = cm.getActiveNetworkInfo();
         }
         return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+
+    public static Call<VideoRoot> getTrailers(int movieId) {
+        MovieService movieService = getMovieService();
+
+        return movieService.getTrailers(movieId);
+    }
+
+    public static Call<ReviewRoot> getReviews(int movieId) {
+        MovieService movieService = getMovieService();
+
+        return movieService.getReviews(movieId);
+    }
+
+    public static Call<MovieRoot> getMovies(int page, MovieSortBy sortAs) {
+        MovieService movieService = getMovieService();
+        Call<MovieRoot> movieRootCall;
+        if (sortAs.equals(MovieSortBy.POPULARITY) || sortAs.equals(MovieSortBy.TOP_RATED)) {
+            movieRootCall = movieService.getMovies(sortAs.toString(), page);
+        } else {
+            movieRootCall = movieService.getDiscoverMovies(sortAs.toString(), page);
+        }
+
+        return movieRootCall;
+    }
+
+    private static MovieService getMovieService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(THE_MOVIE_DB_VIDEO_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofit.create(MovieService.class);
     }
 }

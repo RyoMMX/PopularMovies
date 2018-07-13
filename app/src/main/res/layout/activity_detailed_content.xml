@@ -196,6 +196,103 @@
 
             </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp16"
+                        android:paddingRight="@dimen/dp16"
+                        android:text="@string/trailers_title"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <ProgressBar
+                        android:id="@+id/trailers_pb"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center" />
+
+                    <FrameLayout
+                        android:id="@+id/trailer_error_fl"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="34dp"
+                        android:visibility="gone">
+
+                        <include
+                            android:id="@+id/trailers_error_include"
+                            layout="@layout/movie_item_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/trailers_RV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/dp16">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/dp24"
+                    android:paddingTop="@dimen/dp24">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp16"
+                        android:paddingRight="@dimen/dp16"
+                        android:text="@string/reviews"
+                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
+
+                    <ProgressBar
+                        android:id="@+id/review_pb"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center" />
+
+                    <FrameLayout
+                        android:id="@+id/reivew_error_fl"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="34dp"
+                        android:visibility="gone">
+
+                        <include
+                            android:id="@+id/review_error_include"
+                            layout="@layout/movie_item_error"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+                    </FrameLayout>
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/review_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </layout>

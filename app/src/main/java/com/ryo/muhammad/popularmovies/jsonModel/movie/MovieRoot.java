@@ -1,10 +1,10 @@
-package com.ryo.muhammad.popularmovies.jsonModel;
+package com.ryo.muhammad.popularmovies.jsonModel.movie;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Root {
+public class MovieRoot {
 
     @SerializedName("page")
     private int page;

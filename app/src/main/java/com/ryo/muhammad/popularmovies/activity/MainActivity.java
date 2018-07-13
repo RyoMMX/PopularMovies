@@ -18,13 +18,11 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.ryo.muhammad.popularmovies.R;
 import com.ryo.muhammad.popularmovies.adapter.MovieAdapter;
 import com.ryo.muhammad.popularmovies.background.DataManager;
-import com.ryo.muhammad.popularmovies.background.MoviesLoaderCallbacks;
 import com.ryo.muhammad.popularmovies.databinding.ActivityMainBinding;
-import com.ryo.muhammad.popularmovies.jsonModel.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
 import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.alexbykov.nopaginate.callback.OnLoadMoreListener;
@@ -50,15 +48,15 @@ public class MainActivity extends AppCompatActivity {
             lastMenuItemId = savedInstanceState.getLong(LAST_MENU_ITEM_ID_KEY);
         }
 
-        setupToolbar();
+        setSupportActionBar(binding.toolbar);
         setupNavDrawer(savedInstanceState);
-        setupRecylerView();
+        setupRecyclerView();
         setupDataManager();
     }
 
     private void setupDataManager() {
-        dataManager = new DataManager(this, MovieSortBy.POPULARITY,
-                new MoviesLoaderCallbacks.OnMoviePageLoaded() {
+        dataManager = new DataManager(MovieSortBy.POPULARITY,
+                new DataManager.OnMoviePageLoaded() {
                     @Override
                     public void onLoadFinished(List<Movie> data) {
                         if (data == null) {
@@ -80,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         loadNewPage();
     }
 
-    private void setupRecylerView() {
-        adapter = new MovieAdapter(new ArrayList<Movie>(), this, new ListItemOnClick());
+    private void setupRecyclerView() {
+        adapter = new MovieAdapter(this, new ListItemOnClick());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         binding.contentMain.moviesRv.setLayoutManager(layoutManager);
         binding.contentMain.moviesRv.setAdapter(adapter);
@@ -111,11 +109,6 @@ public class MainActivity extends AppCompatActivity {
                 .withDrawerWidthDp(200)
                 .withOnDrawerItemClickListener(new DrawerListener())
                 .build();
-    }
-
-
-    private void setupToolbar() {
-        setSupportActionBar(binding.toolbar);
     }
 
     @Override

@@ -1,31 +1,56 @@
 package com.ryo.muhammad.popularmovies.background;
 
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager;
+import android.support.annotation.NonNull;
+import android.util.Log;
 
+import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.MovieRoot;
 import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
+import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DataManager {
-    private static final int MOVIE_LOADER_ID = 0;
     private int page = 1;
+    private static final String TAG = DataManager.class.getSimpleName();
 
-    private final FragmentActivity fragmentActivity;
-    private final MoviesLoaderCallbacks.OnMoviePageLoaded onMoviePageLoaded;
+    private final OnMoviePageLoaded onMoviePageLoaded;
     private MovieSortBy sortAs;
 
-    public DataManager(FragmentActivity fragmentActivity, MovieSortBy sortAs,
-                       MoviesLoaderCallbacks.OnMoviePageLoaded onMoviePageLoaded) {
+    public DataManager(MovieSortBy sortAs,
+                       OnMoviePageLoaded onMoviePageLoaded) {
 
-        this.fragmentActivity = fragmentActivity;
         this.sortAs = sortAs;
         this.onMoviePageLoaded = onMoviePageLoaded;
     }
 
     public void loadNextPage() {
-        LoaderManager manager = fragmentActivity.getSupportLoaderManager();
-        manager.destroyLoader(MOVIE_LOADER_ID);
-        manager.initLoader(MOVIE_LOADER_ID, null,
-                new MoviesLoaderCallbacks(fragmentActivity, page, sortAs, onMoviePageLoaded)).forceLoad();
+        Call<MovieRoot> movieRootCall = NetworkUtils.getMovies(page, sortAs);
+        if (!movieRootCall.isExecuted()) {
+            movieRootCall.enqueue(new Callback<MovieRoot>() {
+                @Override
+                public void onResponse(@NonNull Call<MovieRoot> call,
+                                       @NonNull Response<MovieRoot> response) {
+                    if (response.body() != null) {
+                        MovieRoot movieRoot = response.body();
+                        if (movieRoot != null) {
+                            onMoviePageLoaded.onLoadFinished(movieRoot.getResults());
+                            Log.v(TAG, "url = " + response.raw().request().url());
+                            Log.v(TAG, "data size = " + movieRoot.getResults().size());
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<MovieRoot> call, @NonNull Throwable t) {
+                    onMoviePageLoaded.onLoadFinished(null);
+                }
+            });
+        }
         page++;
     }
 
@@ -36,5 +61,9 @@ public class DataManager {
     public void setSortAs(MovieSortBy sortAs) {
         this.sortAs = sortAs;
         resetPage();
+    }
+
+    public interface OnMoviePageLoaded {
+        void onLoadFinished(List<Movie> data);
     }
 }

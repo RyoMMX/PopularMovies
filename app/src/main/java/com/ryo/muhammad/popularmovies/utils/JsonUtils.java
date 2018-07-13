@@ -1,14 +1,14 @@
 package com.ryo.muhammad.popularmovies.utils;
 
 import com.google.gson.Gson;
-import com.ryo.muhammad.popularmovies.jsonModel.Root;
-import com.ryo.muhammad.popularmovies.jsonModel.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.MovieRoot;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 
 import java.util.List;
 
 public class JsonUtils {
     public static List<Movie> getRootFromJson(String json) {
-        Root root = new Gson().fromJson(json, Root.class);
+        MovieRoot root = new Gson().fromJson(json, MovieRoot.class);
         return root.getResults();
     }
 }

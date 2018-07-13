@@ -1,8 +1,8 @@
 package com.ryo.muhammad.popularmovies.utils;
 
 public enum MovieSortBy {
-    POPULARITY("popularity.asc"),
-    TOP_RATED("top-rated"),
+    POPULARITY("popular"),
+    TOP_RATED("top_rated"),
     RELEASE_DATE("release_date.asc"),
     REVENUE("revenue.asc"),
     PRIMARY_RELEASE_DATE("primary_release_date.asc"),
@@ -20,4 +20,9 @@ public enum MovieSortBy {
     public String toString() {
         return value;
     }
+
+    public boolean equals(MovieSortBy movieSortBy) {
+        return value.equals(movieSortBy.value);
+    }
+
 }

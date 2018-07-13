@@ -1,4 +1,4 @@
-package com.ryo.muhammad.popularmovies.jsonModel;
+package com.ryo.muhammad.popularmovies.jsonModel.movie;
 
 import com.google.gson.annotations.SerializedName;
 

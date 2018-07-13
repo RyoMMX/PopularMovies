@@ -33,8 +33,8 @@
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/movie_image"
-                    android:scaleType="centerCrop"
                     android:padding="80dp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/ic_time_lapse" />
 
                 <android.support.v7.widget.Toolbar
@@ -52,5 +52,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <com.rey.material.widget.FloatingActionButton
+            android:id="@+id/button_bt_float_color"
+            style="@style/DarkFABColor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/dp24" />
+
     </android.support.design.widget.CoordinatorLayout>
 </layout>

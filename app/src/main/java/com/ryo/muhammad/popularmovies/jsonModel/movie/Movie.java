@@ -1,13 +1,19 @@
-package com.ryo.muhammad.popularmovies.jsonModel;
+package com.ryo.muhammad.popularmovies.jsonModel.movie;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+@Entity
 public class Movie {
 
     @SerializedName("vote_count")
     private int voteCount;
+
+    @PrimaryKey
     @SerializedName("id")
     private int id;
     @SerializedName("vote_average")
@@ -28,6 +34,24 @@ public class Movie {
     private String releaseDate;
     @SerializedName("genre_ids")
     private List<Integer> genreIds;
+
+
+    public Movie(int voteCount, int id, double voteAverage, String title,
+                 String posterPath, String originalTitle, String backdropPath,
+                 boolean adult, String overview, String releaseDate, List<Integer> genreIds) {
+
+        this.voteCount = voteCount;
+        this.id = id;
+        this.voteAverage = voteAverage;
+        this.title = title;
+        this.posterPath = posterPath;
+        this.originalTitle = originalTitle;
+        this.backdropPath = backdropPath;
+        this.adult = adult;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+        this.genreIds = genreIds;
+    }
 
     public int getVoteCount() {
         return voteCount;

@@ -10,9 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ryo.muhammad.popularmovies.R;
-import com.ryo.muhammad.popularmovies.jsonModel.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
@@ -20,8 +21,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     private final Context context;
     private final OnListItemClicked onListItemClicked;
 
-    public MovieAdapter(List<Movie> movies, Context context, OnListItemClicked onListItemClicked) {
-        this.movies = movies;
+    public MovieAdapter(Context context, OnListItemClicked onListItemClicked) {
+        this.movies = new ArrayList<>();
         this.context = context;
         this.onListItemClicked = onListItemClicked;
     }
@@ -57,7 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
 
     @Override
     public int getItemCount() {
-        return movies.size();
+        return movies == null ? 0 : movies.size();
     }
 
     public void addItem(List<Movie> movies) {
