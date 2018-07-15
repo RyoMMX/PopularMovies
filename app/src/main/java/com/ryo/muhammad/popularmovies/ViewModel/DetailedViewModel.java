@@ -3,7 +3,6 @@ package com.ryo.muhammad.popularmovies.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -27,6 +26,8 @@ public class DetailedViewModel extends AndroidViewModel {
     private List<Trailer> trailers;
     private List<Review> reviews;
     private LiveData<Movie> movieLiveData;
+    private LiveData<List<Review>> reviewsLiveData;
+    private LiveData<List<Trailer>> trailersLiveData;
 
     public DetailedViewModel(@NonNull Application application) {
         super(application);
@@ -108,6 +109,22 @@ public class DetailedViewModel extends AndroidViewModel {
                     .getApplicationContext()).movieDao().getMoviesById(id);
         }
         return movieLiveData;
+    }
+
+    public LiveData<List<Review>> getReviewsLiveData(int movieId) {
+        if (reviewsLiveData == null) {
+            reviewsLiveData = AppDatabase.getInstance(getApplication().getApplicationContext()).
+                    movieDao().getReviewsByMovieId(movieId);
+        }
+        return reviewsLiveData;
+    }
+
+    public LiveData<List<Trailer>> getTrailersLiveData(int movieId) {
+        if (trailersLiveData == null) {
+            trailersLiveData = AppDatabase.getInstance(getApplication().getApplicationContext())
+                    .movieDao().getTrailerByMovieId(movieId);
+        }
+        return trailersLiveData;
     }
 
     public interface OnTrailersLoadListener {

@@ -75,6 +75,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
 
     public void resetData() {
         movies.clear();
+        lastPosition = -1;
         notifyDataSetChanged();
     }
 

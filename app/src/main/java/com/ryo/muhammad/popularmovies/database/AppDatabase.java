@@ -8,8 +8,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.reivew.Review;
+import com.ryo.muhammad.popularmovies.jsonModel.video.Trailer;
 
-@Database(entities = {Movie.class}, version = 1, exportSchema = false)
+@Database(entities = {Movie.class, Review.class, Trailer.class}, version = 1, exportSchema = false)
 @TypeConverters(AppTypeConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 

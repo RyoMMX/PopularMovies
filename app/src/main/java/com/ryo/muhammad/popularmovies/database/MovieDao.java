@@ -8,6 +8,8 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
+import com.ryo.muhammad.popularmovies.jsonModel.reivew.Review;
+import com.ryo.muhammad.popularmovies.jsonModel.video.Trailer;
 
 import java.util.List;
 
@@ -15,7 +17,7 @@ import java.util.List;
 public interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Movie movie);
+    void insertMovie(Movie movie);
 
     @Query("SELECT * FROM Movie")
     LiveData<List<Movie>> getMovies();
@@ -25,4 +27,19 @@ public interface MovieDao {
 
     @Delete
     void deleteMovie(Movie movie);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertReview(Review review);
+
+
+    @Query("SELECT * FROM Review WHERE movieId = :movieId")
+    LiveData<List<Review>> getReviewsByMovieId(int movieId);
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertTrailer(Trailer trailer);
+
+
+    @Query("SELECT * FROM Trailer WHERE movieId = :movieId")
+    LiveData<List<Trailer>> getTrailerByMovieId(int movieId);
 }

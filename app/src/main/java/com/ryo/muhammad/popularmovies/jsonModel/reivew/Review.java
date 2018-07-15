@@ -1,8 +1,15 @@
 package com.ryo.muhammad.popularmovies.jsonModel.reivew;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Review {
+
+    @PrimaryKey
+    private int MovieId;
 
     @SerializedName("author")
     private String author;
@@ -43,5 +50,13 @@ public class Review {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getMovieId() {
+        return MovieId;
+    }
+
+    public void setMovieId(int movieId) {
+        MovieId = movieId;
     }
 }

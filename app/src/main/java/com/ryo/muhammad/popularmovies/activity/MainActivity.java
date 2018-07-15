@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel mainViewModel;
     private boolean isLoading = false;
     private static final int FAVORITE_ID = 10;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
         mainViewModel.setOnMoviePageLoaded(new DataManager.OnMoviePageLoaded() {
             @Override
             public void onLoadFinished(List<Movie> data) {
+                isLoading = false;
                 if (data == null) {
                     noPaginate.showError(true);
                 } else {
                     adapter.addItems(data);
                 }
-                isLoading = false;
             }
         });
     }
@@ -89,10 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 .setOnLoadMoreListener(new OnLoadMoreListener() {
                     @Override
                     public void onLoadMore() {
-                        if (!isLoading) {
-                            isLoading = true;
-                            loadNewPage();
-                        }
+                        loadNewPage();
+
                     }
                 })
                 .setCustomErrorItem(new CustomErrorItem())
@@ -119,10 +118,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadNewPage() {
-        if (NetworkUtils.isOnline(this)) {
-            mainViewModel.loadNextPage();
-        } else {
-            noPaginate.showError(true);
+        if (!isLoading) {
+            if (NetworkUtils.isOnline(this)) {
+                mainViewModel.loadNextPage();
+                isLoading = true;
+            } else {
+                noPaginate.showError(true);
+            }
         }
     }
 
@@ -152,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
     private void goToDetailedActivity(Movie movie) {
         Intent intent = new Intent(this, DetailedActivity.class);
         intent.putExtra(DetailedActivity.EXTRA_MOVE_JSON, new Gson().toJson(movie));
+        intent.putExtra(DetailedActivity.EXTRA_IS_FAVORITE, isFavorite);
         startActivity(intent);
     }
 
@@ -191,12 +194,14 @@ public class MainActivity extends AppCompatActivity {
             if (drawerItem.getIdentifier() != FAVORITE_ID) {
                 noPaginate.setNoMoreItems(false);
                 updateRecyclerView();
+                isFavorite = false;
             }
             lastMenuItemId = drawerItem.getIdentifier();
         }
     }
 
     private void setupFavorite() {
+        isFavorite = true;
         noPaginate.setNoMoreItems(true);
         mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
             @Override

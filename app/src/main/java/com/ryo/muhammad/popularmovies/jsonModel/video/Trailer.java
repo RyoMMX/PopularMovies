@@ -1,8 +1,15 @@
 package com.ryo.muhammad.popularmovies.jsonModel.video;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Trailer {
+
+    @PrimaryKey
+    private int MovieId;
 
     @SerializedName("id")
     private String id;
@@ -83,5 +90,13 @@ public class Trailer {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getMovieId() {
+        return MovieId;
+    }
+
+    public void setMovieId(int movieId) {
+        MovieId = movieId;
     }
 }

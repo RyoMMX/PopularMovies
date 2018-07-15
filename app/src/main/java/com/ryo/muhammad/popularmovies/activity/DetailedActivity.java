@@ -27,6 +27,7 @@ import com.ryo.muhammad.popularmovies.adapter.ReviewAdapter;
 import com.ryo.muhammad.popularmovies.adapter.TrailerAdapter;
 import com.ryo.muhammad.popularmovies.database.AppDatabase;
 import com.ryo.muhammad.popularmovies.database.AppExecutor;
+import com.ryo.muhammad.popularmovies.database.MovieDao;
 import com.ryo.muhammad.popularmovies.databinding.ActivityDetailedBinding;
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Genres;
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
@@ -38,6 +39,7 @@ import java.util.List;
 
 public class DetailedActivity extends AppCompatActivity implements TrailerAdapter.OnItemClickListener {
     public static final String EXTRA_MOVE_JSON = "M";
+    public static final String EXTRA_IS_FAVORITE = "F";
     private ActivityDetailedBinding binding;
     private static final String TAG = DetailedActivity.class.getSimpleName();
     private TrailerAdapter trailerAdapter;
@@ -48,15 +50,17 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
     private boolean isDBProcessing = false;
     private Toast toast;
     private StyleableToast styleableToast;
-    private List<Review> review;
-    private List<Trailer> trailer;
+    private List<Review> reviews;
+    private List<Trailer> trailers;
     private boolean isDataLoaded = false;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detailed);
         detailedViewModel = ViewModelProviders.of(this).get(DetailedViewModel.class);
+        isFavorite = getIntent().getBooleanExtra(EXTRA_IS_FAVORITE, false);
 
         setSupportActionBar(binding.toolbar);
         if (getSupportActionBar() != null) {
@@ -132,7 +136,7 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
                     binding.buttonBtFloatColor.setLineMorphingState(1, !isOnOpenActivity);
                     if (!isOnOpenActivity) {
                         styleableToast = StyleableToast.makeText(DetailedActivity.this,
-                                "The movie is add to favorite", Toast.LENGTH_LONG, R.style.mytoast);
+                                "The movie is add to favorite", Toast.LENGTH_LONG, R.style.save_to_favorite_toast);
                         styleableToast.show();
                         styleableToast = null;
                     }
@@ -182,12 +186,29 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
     }
 
     private void saveToFavorite() {
-        AppExecutor.diskIO().execute(new Runnable() {
-            @Override
-            public void run() {
-                AppDatabase.getInstance(getApplicationContext()).movieDao().insert(movie);
-            }
-        });
+        if (isDataLoaded) {
+            AppExecutor.diskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    MovieDao movieDao = AppDatabase.getInstance(getApplicationContext()).movieDao();
+                    movieDao.insertMovie(movie);
+                    for (Review review : reviews) {
+                        review.setMovieId(movie.getId());
+                        movieDao.insertReview(review);
+                    }
+
+                    for (Trailer trailer : trailers) {
+                        trailer.setMovieId(movie.getId());
+                        movieDao.insertTrailer(trailer);
+                    }
+                }
+            });
+        } else {
+            styleableToast = StyleableToast.makeText(DetailedActivity.this,
+                    "Please wait", Toast.LENGTH_LONG, R.style.wait_toast);
+            styleableToast.show();
+            styleableToast = null;
+        }
     }
 
     private void setupReviewRecyclerView(final int movieId) {
@@ -199,14 +220,27 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         binding.content.reviewRV.setHasFixedSize(true);
 
         final LoadListener loadListener = new LoadListener();
-        detailedViewModel.setOnReviewsLoadListener(movieId, loadListener);
 
-        binding.content.reviewErrorInclude.btnRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detailedViewModel.setOnReviewsLoadListener(movieId, loadListener);
-            }
-        });
+        if (isFavorite) {
+            binding.content.reivewErrorFl.setVisibility(View.GONE);
+            binding.content.reviewPb.setVisibility(View.GONE);
+            detailedViewModel.getReviewsLiveData(movieId).observe(this, new Observer<List<Review>>() {
+                @Override
+                public void onChanged(@Nullable List<Review> reviews) {
+                    reviewAdapter.setReviews(reviews);
+                }
+            });
+        } else {
+            detailedViewModel.setOnReviewsLoadListener(movieId, loadListener);
+
+            binding.content.reviewErrorInclude.btnRepeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    detailedViewModel.setOnReviewsLoadListener(movieId, loadListener);
+                }
+            });
+        }
+
     }
 
     private void setupTrailerRecyclerView(final int movieId) {
@@ -218,14 +252,26 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         binding.content.trailersRV.setHasFixedSize(true);
 
         final LoadListener loadListener = new LoadListener();
-        detailedViewModel.setOnTrailersLoadListener(movieId, loadListener);
 
-        binding.content.trailersErrorInclude.btnRepeat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                detailedViewModel.setOnTrailersLoadListener(movieId, loadListener);
-            }
-        });
+        if (isFavorite) {
+            binding.content.trailerErrorFl.setVisibility(View.GONE);
+            binding.content.trailersPb.setVisibility(View.GONE);
+            detailedViewModel.getTrailersLiveData(movieId).observe(this, new Observer<List<Trailer>>() {
+                @Override
+                public void onChanged(@Nullable List<Trailer> trailers) {
+                    trailerAdapter.setTrailers(trailers);
+                }
+            });
+        } else {
+            detailedViewModel.setOnTrailersLoadListener(movieId, loadListener);
+
+            binding.content.trailersErrorInclude.btnRepeat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    detailedViewModel.setOnTrailersLoadListener(movieId, loadListener);
+                }
+            });
+        }
     }
 
     private void setupGenreRecyclerView(List<String> genreTypes) {
@@ -258,10 +304,10 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         @Override
         public void onTrailersLoad(List<Trailer> trailers) {
             if (trailers != null) {
-                DetailedActivity.this.trailer = trailers;
+                DetailedActivity.this.trailers = trailers;
                 trailerAdapter.setTrailers(trailers);
                 binding.content.trailerErrorFl.setVisibility(View.GONE);
-                if (review != null) {
+                if (reviews != null) {
                     isDataLoaded = true;
                 }
             } else {
@@ -273,9 +319,12 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         @Override
         public void onReviewsLoad(List<Review> reviews) {
             if (reviews != null) {
-                DetailedActivity.this.review = reviews;
+                DetailedActivity.this.reviews = reviews;
                 reviewAdapter.setReviews(reviews);
                 binding.content.reivewErrorFl.setVisibility(View.GONE);
+                if (trailers != null) {
+                    isDataLoaded = true;
+                }
             } else {
                 binding.content.reivewErrorFl.setVisibility(View.VISIBLE);
             }
@@ -285,7 +334,7 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
 
     private static class NotScrollableLinerLayoutManager extends LinearLayoutManager {
 
-        public NotScrollableLinerLayoutManager(Context context) {
+        NotScrollableLinerLayoutManager(Context context) {
             super(context);
         }
 

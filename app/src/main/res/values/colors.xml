@@ -6,5 +6,6 @@
     <color name="divider">#ffffff</color>
     <color name="success">#4CAF50</color>
     <color name="textColor">#ffffff</color>
+    <color name="waring">#FFC107</color>
 </resources>
 

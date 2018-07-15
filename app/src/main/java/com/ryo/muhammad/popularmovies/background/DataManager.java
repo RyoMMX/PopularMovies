@@ -43,6 +43,7 @@ public class DataManager {
                             onMoviePageLoaded.onLoadFinished(movieRoot.getResults());
                             Log.v(TAG, "url = " + response.raw().request().url());
                             Log.v(TAG, "data size = " + movieRoot.getResults().size());
+                            page++;
                         }
                     }
                 }
@@ -53,7 +54,6 @@ public class DataManager {
                 }
             });
         }
-        page++;
     }
 
     public void resetPage() {
@@ -63,6 +63,10 @@ public class DataManager {
     public void setSortAs(MovieSortBy sortAs) {
         this.sortAs = sortAs;
         resetPage();
+    }
+
+    public MovieSortBy getSortAs() {
+        return sortAs;
     }
 
     public interface OnMoviePageLoaded {

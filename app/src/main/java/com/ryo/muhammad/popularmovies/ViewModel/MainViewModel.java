@@ -43,6 +43,10 @@ public class MainViewModel extends AndroidViewModel {
         dataManager.setSortAs(sortAs);
     }
 
+    public MovieSortBy getSortAs() {
+        return dataManager.getSortAs();
+    }
+
 
     public void setOnMoviePageLoaded(DataManager.OnMoviePageLoaded onMoviePageLoaded) {
         if (movieListener == null) {
@@ -77,7 +81,9 @@ public class MainViewModel extends AndroidViewModel {
             if (movies == null) {
                 movies = new ArrayList<>();
             }
-            movies.addAll(data);
+            if (data != null) {
+                movies.addAll(data);
+            }
             onMoviePageLoaded.onLoadFinished(data);
         }
     }
