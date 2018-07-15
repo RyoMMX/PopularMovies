@@ -18,13 +18,15 @@ public class DataManager {
     private int page = 1;
     private static final String TAG = DataManager.class.getSimpleName();
 
-    private final OnMoviePageLoaded onMoviePageLoaded;
+    private OnMoviePageLoaded onMoviePageLoaded;
     private MovieSortBy sortAs;
 
-    public DataManager(MovieSortBy sortAs,
-                       OnMoviePageLoaded onMoviePageLoaded) {
+    public DataManager(MovieSortBy sortAs) {
 
         this.sortAs = sortAs;
+    }
+
+    public void setOnMoviePageLoaded(OnMoviePageLoaded onMoviePageLoaded) {
         this.onMoviePageLoaded = onMoviePageLoaded;
     }
 

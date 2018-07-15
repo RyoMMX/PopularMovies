@@ -48,6 +48,9 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
     private boolean isDBProcessing = false;
     private Toast toast;
     private StyleableToast styleableToast;
+    private List<Review> review;
+    private List<Trailer> trailer;
+    private boolean isDataLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,8 +258,12 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         @Override
         public void onTrailersLoad(List<Trailer> trailers) {
             if (trailers != null) {
+                DetailedActivity.this.trailer = trailers;
                 trailerAdapter.setTrailers(trailers);
                 binding.content.trailerErrorFl.setVisibility(View.GONE);
+                if (review != null) {
+                    isDataLoaded = true;
+                }
             } else {
                 binding.content.trailerErrorFl.setVisibility(View.VISIBLE);
             }
@@ -266,6 +273,7 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         @Override
         public void onReviewsLoad(List<Review> reviews) {
             if (reviews != null) {
+                DetailedActivity.this.review = reviews;
                 reviewAdapter.setReviews(reviews);
                 binding.content.reivewErrorFl.setVisibility(View.GONE);
             } else {

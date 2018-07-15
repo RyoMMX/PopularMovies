@@ -43,4 +43,5 @@
         android:title="@string/vote_count_title"
         app:showAsAction="never" />
 
+
 </menu>

@@ -1,8 +1,11 @@
 package com.ryo.muhammad.popularmovies.activity;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +17,10 @@ import android.widget.ImageButton;
 import com.google.gson.Gson;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.ryo.muhammad.popularmovies.R;
+import com.ryo.muhammad.popularmovies.ViewModel.MainViewModel;
 import com.ryo.muhammad.popularmovies.adapter.MovieAdapter;
 import com.ryo.muhammad.popularmovies.background.DataManager;
 import com.ryo.muhammad.popularmovies.databinding.ActivityMainBinding;
@@ -35,51 +40,46 @@ public class MainActivity extends AppCompatActivity {
     private MovieAdapter adapter;
     private Drawer drawer;
     private NoPaginate noPaginate;
-    private DataManager dataManager;
     private long lastMenuItemId;
-    private static final String LAST_MENU_ITEM_ID_KEY = "I";
+    private MainViewModel mainViewModel;
+    private boolean isLoading = false;
+    private static final int FAVORITE_ID = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
-        if (savedInstanceState != null) {
-            lastMenuItemId = savedInstanceState.getLong(LAST_MENU_ITEM_ID_KEY);
-        }
-
         setSupportActionBar(binding.toolbar);
+
+        setupViewModel();
         setupNavDrawer(savedInstanceState);
         setupRecyclerView();
-        setupDataManager();
     }
 
-    private void setupDataManager() {
-        dataManager = new DataManager(MovieSortBy.POPULARITY,
-                new DataManager.OnMoviePageLoaded() {
-                    @Override
-                    public void onLoadFinished(List<Movie> data) {
-                        if (data == null) {
-                            noPaginate.showError(true);
-                            if (dataManager != null) {
-                                dataManager.resetPage();
-                            }
-                        } else {
-                            adapter.addItem(data);
-                        }
-                    }
-                });
+
+    private void setupViewModel() {
+        mainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mainViewModel.setOnMoviePageLoaded(new DataManager.OnMoviePageLoaded() {
+            @Override
+            public void onLoadFinished(List<Movie> data) {
+                if (data == null) {
+                    noPaginate.showError(true);
+                } else {
+                    adapter.addItems(data);
+                }
+                isLoading = false;
+            }
+        });
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         setSortAs(drawer.getDrawerItem(lastMenuItemId));
-        loadNewPage();
     }
 
     private void setupRecyclerView() {
-        adapter = new MovieAdapter(this, new ListItemOnClick());
+        adapter = new MovieAdapter(mainViewModel.getMovies(), this, new ListItemOnClick());
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 3);
         binding.contentMain.moviesRv.setLayoutManager(layoutManager);
         binding.contentMain.moviesRv.setAdapter(adapter);
@@ -89,14 +89,18 @@ public class MainActivity extends AppCompatActivity {
                 .setOnLoadMoreListener(new OnLoadMoreListener() {
                     @Override
                     public void onLoadMore() {
-                        loadNewPage();
+                        if (!isLoading) {
+                            isLoading = true;
+                            loadNewPage();
+                        }
                     }
                 })
                 .setCustomErrorItem(new CustomErrorItem())
                 .build();
     }
 
-    private void updateRecylerView() {
+    private void updateRecyclerView() {
+        mainViewModel.clearMovies();
         adapter.resetData();
     }
 
@@ -105,22 +109,18 @@ public class MainActivity extends AppCompatActivity {
                 .withActivity(this)
                 .withToolbar(binding.toolbar)
                 .inflateMenu(R.menu.main_menu)
+                .addStickyDrawerItems(new SecondaryDrawerItem().withName("My Favorite")
+                        .withIcon(R.drawable.ic_favorite_black_24dp).withIdentifier(FAVORITE_ID))
+                .addStickyDrawerItems()
                 .withSavedInstance(savedInstanceState)
                 .withDrawerWidthDp(200)
                 .withOnDrawerItemClickListener(new DrawerListener())
                 .build();
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        drawer.saveInstanceState(outState);
-        outState.putLong(LAST_MENU_ITEM_ID_KEY, lastMenuItemId);
-    }
-
     private void loadNewPage() {
         if (NetworkUtils.isOnline(this)) {
-            dataManager.loadNextPage();
+            mainViewModel.loadNextPage();
         } else {
             noPaginate.showError(true);
         }
@@ -168,25 +168,43 @@ public class MainActivity extends AppCompatActivity {
         if (drawerItem != null && drawerItem.getIdentifier() != lastMenuItemId) {
 
             if (drawerItem.getIdentifier() == R.id.popularity_mi) {
-                dataManager.setSortAs(MovieSortBy.POPULARITY);
+                mainViewModel.setSortAs(MovieSortBy.POPULARITY);
             } else if (drawerItem.getIdentifier() == R.id.top_rated_mi) {
-                dataManager.setSortAs(MovieSortBy.TOP_RATED);
+                mainViewModel.setSortAs(MovieSortBy.TOP_RATED);
             } else if (drawerItem.getIdentifier() == R.id.release_date_mi) {
-                dataManager.setSortAs(MovieSortBy.RELEASE_DATE);
+                mainViewModel.setSortAs(MovieSortBy.RELEASE_DATE);
             } else if (drawerItem.getIdentifier() == R.id.revenue_mi) {
-                dataManager.setSortAs(MovieSortBy.REVENUE);
+                mainViewModel.setSortAs(MovieSortBy.REVENUE);
             } else if (drawerItem.getIdentifier() == R.id.primary_release_date_mi) {
-                dataManager.setSortAs(MovieSortBy.PRIMARY_RELEASE_DATE);
+                mainViewModel.setSortAs(MovieSortBy.PRIMARY_RELEASE_DATE);
             } else if (drawerItem.getIdentifier() == R.id.original_title_mi) {
-                dataManager.setSortAs(MovieSortBy.ORIGINAL_TITLE);
+                mainViewModel.setSortAs(MovieSortBy.ORIGINAL_TITLE);
             } else if (drawerItem.getIdentifier() == R.id.vote_average_mi) {
-                dataManager.setSortAs(MovieSortBy.VOTE_AVERAGE);
+                mainViewModel.setSortAs(MovieSortBy.VOTE_AVERAGE);
             } else if (drawerItem.getIdentifier() == R.id.vote_count_mi) {
-                dataManager.setSortAs(MovieSortBy.VOTE_COUNT);
+                mainViewModel.setSortAs(MovieSortBy.VOTE_COUNT);
+            } else if (drawerItem.getIdentifier() == FAVORITE_ID) {
+                setupFavorite();
+            } else {
+                return;
             }
-            updateRecylerView();
+            if (drawerItem.getIdentifier() != FAVORITE_ID) {
+                noPaginate.setNoMoreItems(false);
+                updateRecyclerView();
+            }
             lastMenuItemId = drawerItem.getIdentifier();
         }
+    }
+
+    private void setupFavorite() {
+        noPaginate.setNoMoreItems(true);
+        mainViewModel.getFavoriteMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                updateRecyclerView();
+                adapter.addItems(movies);
+            }
+        });
     }
 
     private class ListItemOnClick implements MovieAdapter.OnListItemClicked {

@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +22,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
     private final List<Movie> movies;
     private final Context context;
     private final OnListItemClicked onListItemClicked;
+    private int lastPosition = -1;
 
-    public MovieAdapter(Context context, OnListItemClicked onListItemClicked) {
-        this.movies = new ArrayList<>();
+    public MovieAdapter(List<Movie> movies, Context context, OnListItemClicked onListItemClicked) {
+        this.movies = movies;
         this.context = context;
         this.onListItemClicked = onListItemClicked;
     }
@@ -54,6 +57,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
                 }
             });
         }
+
+        setAnimation(holder.itemView, position);
     }
 
     @Override
@@ -61,8 +66,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         return movies == null ? 0 : movies.size();
     }
 
-    public void addItem(List<Movie> movies) {
-        if (movies != null && !movies.isEmpty()) {
+    public void addItems(List<Movie> movies) {
+        if (movies != null) {
             this.movies.addAll(movies);
             notifyDataSetChanged();
         }
@@ -73,14 +78,24 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {
         notifyDataSetChanged();
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
+
     class Holder extends RecyclerView.ViewHolder {
         private final ImageView posterIV;
         private final TextView titleTV;
+        private final View itemView;
 
         Holder(View itemView) {
             super(itemView);
             this.posterIV = itemView.findViewById(R.id.poster_iv);
             this.titleTV = itemView.findViewById(R.id.title_tv);
+            this.itemView = itemView;
         }
     }
 
