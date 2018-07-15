@@ -56,7 +56,7 @@ public class DataManager {
         }
     }
 
-    public void resetPage() {
+    private void resetPage() {
         page = 1;
     }
 

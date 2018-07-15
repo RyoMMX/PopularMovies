@@ -15,7 +15,6 @@ import com.ryo.muhammad.popularmovies.R;
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 import com.ryo.muhammad.popularmovies.utils.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.Holder> {

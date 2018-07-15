@@ -12,10 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.ryo.muhammad.popularmovies.BuildConfig;
 import com.ryo.muhammad.popularmovies.R;
-import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 import com.ryo.muhammad.popularmovies.jsonModel.movie.MovieRoot;
 import com.ryo.muhammad.popularmovies.jsonModel.reivew.ReviewRoot;
-import com.ryo.muhammad.popularmovies.jsonModel.video.Trailer;
 import com.ryo.muhammad.popularmovies.jsonModel.video.VideoRoot;
 
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.List;
 import java.util.Scanner;
 
 import retrofit2.Call;
@@ -95,10 +92,6 @@ public class NetworkUtils {
         }
 
         return json;
-    }
-
-    public static String getJsonPage(int page, MovieSortBy movieSortBy) throws IOException {
-        return getJson(createURL(page, movieSortBy));
     }
 
     @SuppressLint("CheckResult")

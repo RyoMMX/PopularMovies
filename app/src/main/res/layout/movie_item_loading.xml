@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dp16"
+    android:paddingTop="@dimen/dp16">
+
+
+    <com.rey.material.widget.ProgressView
+        android:id="@+id/progress_pv_linear_colors"
+        style="@style/LightColorLinearProgressView"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+        app:pv_autostart="true" />
+
+
+</FrameLayout>

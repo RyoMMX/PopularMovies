@@ -3,12 +3,10 @@ package com.ryo.muhammad.popularmovies.ViewModel;
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
 import com.ryo.muhammad.popularmovies.background.DataManager;
 import com.ryo.muhammad.popularmovies.database.AppDatabase;
-import com.ryo.muhammad.popularmovies.database.AppExecutor;
 import com.ryo.muhammad.popularmovies.jsonModel.movie.Movie;
 import com.ryo.muhammad.popularmovies.utils.MovieSortBy;
 
@@ -16,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
-    private DataManager dataManager;
+    private final DataManager dataManager;
     private List<Movie> movies = new ArrayList<>();
     private MovieListener movieListener;
     private LiveData<List<Movie>> favoriteMovies;

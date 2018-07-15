@@ -10,17 +10,11 @@ import android.widget.TextView;
 import com.ryo.muhammad.popularmovies.R;
 import com.ryo.muhammad.popularmovies.jsonModel.video.Trailer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.Holder> {
     private List<Trailer> trailers;
-    private OnItemClickListener onItemClickListener;
-
-    public TrailerAdapter(List<Trailer> trailers, OnItemClickListener onItemClickListener) {
-        this.trailers = trailers;
-        this.onItemClickListener = onItemClickListener;
-    }
+    private final OnItemClickListener onItemClickListener;
 
     public TrailerAdapter(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -77,7 +71,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.Holder> 
         }
     }
 
-    public static interface OnItemClickListener {
+    public interface OnItemClickListener {
 
         void onClick(View view, Trailer trailer);
     }

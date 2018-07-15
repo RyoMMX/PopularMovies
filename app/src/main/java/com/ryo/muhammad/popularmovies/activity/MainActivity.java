@@ -33,6 +33,7 @@ import java.util.List;
 import ru.alexbykov.nopaginate.callback.OnLoadMoreListener;
 import ru.alexbykov.nopaginate.callback.OnRepeatListener;
 import ru.alexbykov.nopaginate.item.ErrorItem;
+import ru.alexbykov.nopaginate.item.LoadingItem;
 import ru.alexbykov.nopaginate.paginate.NoPaginate;
 
 public class MainActivity extends AppCompatActivity {
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .setCustomErrorItem(new CustomErrorItem())
+                .setCustomLoadingItem(new CustomLoadingItem())
                 .build();
     }
 
@@ -148,6 +150,21 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
+        }
+    }
+
+    class CustomLoadingItem implements LoadingItem {
+
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_item_loading, parent, false);
+            return new RecyclerView.ViewHolder(view) {
+            };
+        }
+
+        @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
         }
     }
 

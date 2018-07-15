@@ -222,7 +222,7 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
         final LoadListener loadListener = new LoadListener();
 
         if (isFavorite) {
-            binding.content.reivewErrorFl.setVisibility(View.GONE);
+            binding.content.reviewErrorFl.setVisibility(View.GONE);
             binding.content.reviewPb.setVisibility(View.GONE);
             detailedViewModel.getReviewsLiveData(movieId).observe(this, new Observer<List<Review>>() {
                 @Override
@@ -321,12 +321,12 @@ public class DetailedActivity extends AppCompatActivity implements TrailerAdapte
             if (reviews != null) {
                 DetailedActivity.this.reviews = reviews;
                 reviewAdapter.setReviews(reviews);
-                binding.content.reivewErrorFl.setVisibility(View.GONE);
+                binding.content.reviewErrorFl.setVisibility(View.GONE);
                 if (trailers != null) {
                     isDataLoaded = true;
                 }
             } else {
-                binding.content.reivewErrorFl.setVisibility(View.VISIBLE);
+                binding.content.reviewErrorFl.setVisibility(View.VISIBLE);
             }
             binding.content.reviewPb.setVisibility(View.GONE);
         }

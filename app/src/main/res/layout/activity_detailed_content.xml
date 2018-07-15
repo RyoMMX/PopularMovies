@@ -271,7 +271,7 @@
                         android:layout_gravity="center" />
 
                     <FrameLayout
-                        android:id="@+id/reivew_error_fl"
+                        android:id="@+id/review_error_fl"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="34dp"
